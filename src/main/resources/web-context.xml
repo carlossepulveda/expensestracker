@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:property-placeholder />
+    <!-- Jogger configuration -->
+    <bean id="controllerLoader" class="com.elibom.jogger.middleware.router.loader.SpringControllerLoader" />
+    <bean id="routesLoader" class="com.elibom.jogger.middleware.router.loader.FileSystemRoutesLoader">
+        <property name="filePath" value="./routes.config" />
+        <property name="controllerLoader" ref="controllerLoader" />
+    </bean>
+    
+    <bean id="joggerFactory" class="co.sepulveda.web.JoggerFactory">
+        <property name="freeMarker" ref="freeMarker" />
+        <property name="routesLoader" ref="routesLoader" />
+        <property name="staticDirectory" value="${BASEDIR:.}/static" />
+    </bean>
+    <bean id="securityInterceptor" class="co.sepulveda.web.interceptor.SecurityInterceptor">
+    </bean>
+    <bean id="pagesController" class="co.sepulveda.web.controller.Pages">
+    </bean>
+
+    <!-- server configuration -->
+    <bean id="jogger" class="com.elibom.jogger.Jogger" factory-bean="joggerFactory" factory-method="create" init-method="listen" destroy-method="stop">
+        <property name="port" value="${PORT:9090}" />
+    </bean>
+</beans>
