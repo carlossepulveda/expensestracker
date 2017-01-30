@@ -8,7 +8,57 @@
             http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
             http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
+    <context:property-placeholder />
 
+    <aop:aspectj-autoproxy /> <!-- enable the AOP support -->
+    <tx:annotation-driven />
+    <context:annotation-config/> <!-- post-processors for all standard config annotations -->
+
+    <bean id="jpaProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">validate</prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.archive.autodetection">false</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.format_sql">false</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="strongEncryptor" class="org.jasypt.encryption.pbe.PooledPBEStringEncryptor">
+        <property name="password" value="testingDecryptPass" />
+        <property name="poolSize" value="4" />
+    </bean>
+    <bean id="hibernateStringEncryptor" class="org.jasypt.hibernate4.encryptor.HibernatePBEStringEncryptor">
+        <property name="registeredName" value="jasyptEncryptor" />
+        <property name="encryptor" ref="strongEncryptor" />
+    </bean>
+    
+    <!-- Entity Manager and Transaction configuration -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="basic" />
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaProperties" ref="jpaProperties" />
+    </bean>
+    
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+	
+    <!-- Database Configuration -->
+    <bean id="dbUri" class="co.sepulveda.util.Uri">
+        <constructor-arg value="${DATABASE_URL:mysql://testing:testing321@localhost:3306/expenses-manager?autoReconnect=true}"/>
+    </bean>
+	
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${DATABASE_DRIVER:com.mysql.jdbc.Driver}"/>
+        <property name="url" value="#{ 'jdbc:' + @dbUri.getUrl() + @dbUri.getPath()}" />
+        <property name="username" value="#{ @dbUri.getUsername() }"/>
+        <property name="password" value="#{ @dbUri.getPassword() }"/>
+        <property name="validationQuery" value="SELECT 1" />
+        <property name="validationQueryTimeout" value="5" />
+    </bean>
+    <bean id="employeeManager" class="co.sepulveda.core.employee.JPAEmployeeManager"/>
     <bean id="freeMarkerFactory" class="co.sepulveda.util.FreeMarkerFactory">
         <property name="templatesDirectory" value="${BASEDIR:.}/templates/" />
         <property name="classpathDirectory" value="/templates" />
