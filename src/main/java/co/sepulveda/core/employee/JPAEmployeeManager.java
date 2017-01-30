@@ -1,5 +1,6 @@
 package co.sepulveda.core.employee;
 
+import com.elibom.jogger.exception.ConflictException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,7 +19,7 @@ public class JPAEmployeeManager implements EmployeeManager {
     @Transactional
     @Override
     public void create(Employee employee) throws Exception{
-        if (getByEmail(employee.getEmail()) != null) {
+        if (getByPersonalId(employee.getPersonalId()) != null) {
             throw new Exception("Employee '" + employee.getEmail() + "' already exists.");
         }
 
@@ -29,10 +30,10 @@ public class JPAEmployeeManager implements EmployeeManager {
         }
     }
 
-    private Employee getByEmail(String email) throws Exception {
+    private Employee getByPersonalId(String personalId) throws Exception {
         try {
-            Query query = entityManager.createQuery("select e from Employee e where e.email = :email");
-            query.setParameter("email", email);
+            Query query = entityManager.createQuery("select e from Employee e where e.personal_id = :personalId");
+            query.setParameter("personalId", personalId);
 
             List<Employee> employees = query.getResultList();
             if (employees != null && !employees.isEmpty()) {
@@ -41,7 +42,7 @@ public class JPAEmployeeManager implements EmployeeManager {
 
             return null;
         } catch (Exception e) {
-            throw new Exception("Exception loading user by employee: " + e.getMessage(), e);
+            throw new ConflictException();
         }
     }
 }
