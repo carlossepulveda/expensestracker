@@ -23,7 +23,7 @@ public class Pages {
     private SessionManager sessionManager;
 
     public void index(Request request, Response response) {
-        response.contentType(ContentType.TEXT_HTML).write("ok");
+        response.contentType(ContentType.TEXT_HTML).render("index.ftl");
     }
 
     public void login(Request request, Response response) throws Exception {
@@ -42,6 +42,15 @@ public class Pages {
         response.setCookie(cookie);
 
         response.contentType(ContentType.APPLICATION_JSON).write("{}");
+    }
+
+    public void home(Request request, Response response) throws Exception {
+        Session session = (Session) response.getAttributes().get("session");
+        if (Employee.ROLE_EMPLOYEE.equals(session.getEmployee().getRole())) {
+            response.redirect("/trip");
+        } else {
+            response.redirect("/admin/trip");
+        }
     }
 
     public void setEmployeeManager(EmployeeManager employeeManager) {

@@ -31,10 +31,10 @@ public class SecurityInterceptor implements Interceptor {
 
         if (requiresAuthentication(execution)) {
             Employee employee = session.getEmployee();
-            if (!getRole(execution).equals(employee.getRole())) throw new ForbiddenException();
+            if (getRole(execution) != null && !getRole(execution).equals(employee.getRole())) throw new ForbiddenException();
         }
 
-        response.setAttribute("session", session);
+        if (session != null) response.setAttribute("session", session);
         execution.proceed();
     }
 
