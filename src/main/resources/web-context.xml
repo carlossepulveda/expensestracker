@@ -26,6 +26,10 @@
     <bean id="employeesController" class="co.sepulveda.web.controller.Employees">
         <property name="employeeManager" ref="employeeManager"/>
     </bean>
+    <bean id="tripsController" class="co.sepulveda.web.controller.Trips">
+        <property name="tripManager" ref="tripManager"/>
+        <property name="employeeManager" ref="employeeManager"/>
+    </bean>
 
     <!-- server configuration -->
     <bean id="jogger" class="com.elibom.jogger.Jogger" factory-bean="joggerFactory" factory-method="create" init-method="listen" destroy-method="stop">

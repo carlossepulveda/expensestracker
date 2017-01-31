@@ -4,6 +4,7 @@ import com.elibom.jogger.Middleware;
 import com.elibom.jogger.MiddlewareChain;
 import com.elibom.jogger.exception.BadRequestException;
 import com.elibom.jogger.exception.ConflictException;
+import com.elibom.jogger.exception.NotFoundException;
 import com.elibom.jogger.exception.UnAuthorizedException;
 import com.elibom.jogger.http.Request;
 import com.elibom.jogger.http.Response;
@@ -26,9 +27,10 @@ public class ExceptionMiddleware implements Middleware {
     private void processException(Response response, Exception e) {
         if(e instanceof UnAuthorizedException) {
             response.status(401).write("{\"code\":\"unauthorized\"}");
-            return;
         }else if(e instanceof BadRequestException) {
             response.status(400).write("{\"code\":\"invalid_data\"}");
+        }else if(e instanceof NotFoundException) {
+            response.status(404).write("{\"code\":\"not_found\"}");
         }else if(e instanceof ConflictException) {
             response.status(409).write("{\"code\":\"duplicated_entry\"}");
         } else {

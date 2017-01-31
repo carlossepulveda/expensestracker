@@ -3,5 +3,6 @@
   <persistence-unit name="basic" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>co.sepulveda.core.employee.Employee</class>
+    <class>co.sepulveda.core.trip.Trip</class>
   </persistence-unit>
 </persistence>

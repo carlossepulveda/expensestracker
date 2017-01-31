@@ -14,3 +14,13 @@ CREATE TABLE `employee` (
   `role` varchar(10) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `trip` (
+  `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `employee_id` bigint(11) NOT NULL,
+  `creation_time` datetime NOT NULL,
+  `end_time` datetime DEFAULT NULL,
+  `status` varchar(10) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
