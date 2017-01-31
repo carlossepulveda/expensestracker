@@ -26,7 +26,7 @@
     />
     <trip id="1"
             name="Prague"
-            employee_id="4"
+            employee_id="5"
             creation_time="2017-01-30 20:30:57"
             status="open"
     />

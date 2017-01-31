@@ -65,4 +65,11 @@ public class JPATripManager implements TripManager {
             throw new ConflictException();
         }
     }
+
+    @Override
+    public List<Trip> listByEmployee(long employeeId) throws Exception {
+        Query query = entityManager.createQuery("select t from Trip t where t.employee.id = :employeeId");
+        query.setParameter("employeeId", employeeId);
+        return query.getResultList();
+    }
 }
