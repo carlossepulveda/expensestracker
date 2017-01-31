@@ -6,6 +6,7 @@
   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
   crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script>
+    <link rel="stylesheet" href="/static/css/base.css">
 </head>
 <body>
 
@@ -15,9 +16,10 @@
     <div class="pull-right">
         <a href="/logout">Logout</a>
     </div>
-	<div class="row col-md-12">
+	<div class="row col-md-12 main-menu">
 		<a href="/admin/trip" class="col-md-2"><h4>Trips</h4></a>
 		<a href="/admin/employee" class="col-md-2"><h4>Employees</h4></a>
+        <a href="/admin/expense" class="col-md-2"><h4>ExpensesByTag</h4></a>
 	</div>
 	<hr/>
     <div class="row" style="padding:2em">
@@ -26,7 +28,7 @@
         </div>
 
         <div class="pull-right">
-            <a type="button" class="btn btn-lg btn-success" href="/admin/employee/new/form">Create</a>
+            <a type="button" class="btn btn-lg btn-success" href="/admin/employee/new/form">Create Employee</a>
         </div>
     </div>
 

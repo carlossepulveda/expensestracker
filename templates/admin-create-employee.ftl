@@ -6,6 +6,7 @@
   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
   crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script>
+    <link rel="stylesheet" href="/static/css/base.css">
 </head>
 <body>
 <div class="container-section admin-create-employee col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1" style="padding:4%;">
@@ -13,9 +14,14 @@
     <div class="pull-right">
         <a href="/logout">Logout</a>
     </div>
+    <div class="row col-md-12 main-menu">
+    </div>
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <h2>Agregar viaje</h2>
+            <h4>Create Employee</h4>
+        </div>
+        <div class="pull-right">
+            <a type="button" class="btn btn-lg btn-success" href="/home">Back</a>
         </div>
     </div>
 
