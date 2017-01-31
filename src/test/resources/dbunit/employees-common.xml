@@ -13,4 +13,9 @@
             creation_time="2017-01-30 20:30:57"
             status="open"
     />
+    <expense id="1"
+        amount="1200"
+        tag="eat"
+        trip_id="1"
+    />
 </dataset>
