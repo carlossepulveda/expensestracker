@@ -14,6 +14,7 @@ import co.sepulveda.web.forms.TripResponse;
 import com.elibom.jogger.exception.BadRequestException;
 import com.elibom.jogger.exception.NotFoundException;
 import com.elibom.jogger.http.Http;
+import com.elibom.jogger.http.Http.ContentType;
 import com.elibom.jogger.http.Request;
 import com.elibom.jogger.http.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -70,6 +71,12 @@ public class Admin {
     }
 
     public void loadTrip(Request request, Response response) throws Exception {
+        String accept = request.getHeader(Http.Headers.ACCEPT);
+        if (accept != null && accept.contains("html")) {
+            response.contentType(ContentType.TEXT_HTML).render("admin-trip-view.ftl");
+            return;
+        }
+
         long tripId = getTripId(request);
         Trip trip = tripManager.load(tripId);
         if (trip == null) throw new NotFoundException();
@@ -79,6 +86,12 @@ public class Admin {
     }
 
     public void listTrips(Request request, Response response) throws Exception {
+        String accept = request.getHeader(Http.Headers.ACCEPT);
+        if (accept != null && accept.contains("html")) {
+            response.contentType(ContentType.TEXT_HTML).render("admin-trips.ftl");
+            return;
+        }
+
         List<Trip> trips = tripManager.list();
         List<TripResponse> tripsResponse = new ArrayList();
         for (Trip trip : trips) {
@@ -90,6 +103,12 @@ public class Admin {
     }
 
     public void groupExpenses(Request request, Response response) throws Exception {
+        String accept = request.getHeader(Http.Headers.ACCEPT);
+        if (accept != null && accept.contains("html")) {
+            response.contentType(ContentType.TEXT_HTML).render("admin-expenses.ftl");
+            return;
+        }
+
         List<Expense> expenses = expenseManager.groupByTag();
         String json = new ObjectMapper().writeValueAsString(expenses);
         response.contentType(Http.ContentType.APPLICATION_JSON).write(json);
@@ -107,6 +126,10 @@ public class Admin {
         tripR.setName(trip.getName());
         tripR.setStatus(trip.getStatus());
         return tripR;
+    }
+
+    public void newTrip(Request request, Response response) {
+        response.contentType(ContentType.TEXT_HTML).render("admin-create-trip.ftl");
     }
 
     private long getTripId(Request request) {

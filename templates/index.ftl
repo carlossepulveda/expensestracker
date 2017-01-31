@@ -11,7 +11,7 @@
 
     <div class="container col-md-2 col-md-offset-5 login">
 
-      <divclass="form-signin">
+      <div class="form-signin">
         <h2 class="form-signin-heading">Log in</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="text" id="inputEmail" class="form-control" placeholder="User name" required="" autofocus="" v-model="username">
