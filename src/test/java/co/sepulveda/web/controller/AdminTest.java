@@ -1,5 +1,6 @@
 package co.sepulveda.web.controller;
 
+import co.sepulveda.core.employee.Employee;
 import co.sepulveda.web.forms.TripResponse;
 import com.elibom.jogger.http.Cookie;
 import com.elibom.jogger.http.Http;
@@ -158,5 +159,20 @@ public class AdminTest extends BaseTest {
         JSONArray expenses = new JSONArray(response.getOutputAsString());
         Assert.assertNotNull(expenses);
         Assert.assertEquals(expenses.length(), 1);
+    }
+
+    @Test
+    public void shouldListEmployees() throws Exception {
+        databaseOperation(DatabaseOperation.INSERT, dataset);
+
+        MockResponse response = get("/admin/employee")
+                .setHeader(Http.Headers.ACCEPT, "text/json")
+                .addCookie(new Cookie("expenses_session_id", "1234567890"))
+                .run();
+
+        Assert.assertEquals(response.getStatus(), Response.OK);
+        ObjectMapper mapper = new ObjectMapper();
+        List<Employee> employees = mapper.readValue(response.getOutputAsString(), new TypeReference<List<Employee>>(){});
+        Assert.assertNotNull(employees);
     }
 }
