@@ -10,7 +10,9 @@ import co.sepulveda.web.forms.ExpenseForm;
 import co.sepulveda.web.forms.FormParser;
 import co.sepulveda.web.forms.TripResponse;
 import com.elibom.jogger.exception.BadRequestException;
+import com.elibom.jogger.exception.ConflictException;
 import com.elibom.jogger.exception.NotFoundException;
+import com.elibom.jogger.http.Http;
 import com.elibom.jogger.http.Http.ContentType;
 import com.elibom.jogger.http.Request;
 import com.elibom.jogger.http.Response;
@@ -37,6 +39,7 @@ public class Trips {
         long tripId = getTripId(request);
         Trip trip = tripManager.load(tripId, employee.getId());
         if (trip == null) throw new NotFoundException();
+        if (trip.getStatus().equals("closed")) throw new ConflictException();
 
         Expense expense = new Expense();
         expense.setAmount(form.getAmount());
@@ -48,6 +51,12 @@ public class Trips {
     }
 
     public void load(Request request, Response response) throws Exception {
+        String accept = request.getHeader(Http.Headers.ACCEPT);
+        if (accept != null && accept.contains("html")) {
+            response.contentType(ContentType.TEXT_HTML).render("trip.ftl");
+            return;
+        }
+
         Employee employee = getEmployeeFromSession(response);
         long tripId = getTripId(request);
         Trip trip = tripManager.load(tripId, employee.getId());
@@ -80,6 +89,12 @@ public class Trips {
     }
 
     public void list(Request request, Response response) throws Exception {
+        String accept = request.getHeader(Http.Headers.ACCEPT);
+        if (accept != null && accept.contains("html")) {
+            response.contentType(ContentType.TEXT_HTML).render("trips.ftl");
+            return;
+        }
+
         Employee employee = getEmployeeFromSession(response);
         List<Trip> trips = tripManager.listByEmployee(employee.getId());
         List<TripResponse> tripsResponse = new ArrayList();
