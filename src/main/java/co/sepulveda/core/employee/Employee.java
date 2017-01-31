@@ -34,6 +34,7 @@ public class Employee implements Serializable {
     private String personalId;
     private String phone;
     private String password;
+    private String role;
 
     @Id
     @Column(name = "id")
@@ -101,5 +102,16 @@ public class Employee implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @NotNull
+    @Length(max = 10)
+    @Column(name = "role")
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
