@@ -1,4 +1,4 @@
-package co.sepulveda.base;
+package co.sepulveda.web.controller;
 
 /**
  *
@@ -52,11 +52,10 @@ public class BaseTest extends JoggerTest {
 
     private JedisPool jedisPool;
 
-    public static final String DB_BASE = "base";
-
     @BeforeSuite
     public void doInit() throws Exception {
         System.setProperty("BASE_ENV", "test");
+        System.setProperty("DATABASE_URL", "mysql://testing:testing321@localhost:3306/expenses-manager-test?autoReconnect=true");
         System.setProperty("BASEDIR", "");
         springContext = new ClassPathXmlApplicationContext(getConfigLocations());
         jogger = springContext.getBean("joggerFactory", JoggerFactory.class).create();
@@ -66,6 +65,11 @@ public class BaseTest extends JoggerTest {
     public void doDestroy() {
         System.clearProperty("BASE_ENV");
         springContext.close();
+    }
+
+    public void setUp() throws Exception {
+        databaseOperation(DatabaseOperation.CLEAN_INSERT, "dbunit/init.xml");
+        cleanRedis();
     }
 
     protected ApplicationContext getSpringContext() {
@@ -116,31 +120,14 @@ public class BaseTest extends JoggerTest {
     }
 
     protected void databaseOperation(DatabaseOperation operation, String datasetFile) throws BeansException, SQLException, DatabaseUnitException {
-        databaseOperation(operation, datasetFile, DB_BASE);
-    }
-
-    /**
-     * Helper Method. Executes a DBUnit operation.
-     *
-     * @param operation the type of operation to perform.
-     * @param datasetFile the path to the dataset file.
-     * @param db
-     *
-     * @throws BeansException
-     * @throws SQLException
-     * @throws DatabaseUnitException
-     */
-    private void databaseOperation(DatabaseOperation operation, String datasetFile, String db) throws BeansException, SQLException,
-            DatabaseUnitException {
-
-        IDataSet dataSet = new FlatXmlDataSetBuilder().build(Thread.currentThread().getContextClassLoader()
+                IDataSet dataSet = new FlatXmlDataSetBuilder().build(Thread.currentThread().getContextClassLoader()
                 .getResource(datasetFile));
 
         IDatabaseConnection connection = null;
         try {
             ReplacementDataSet replacementDataSet = new ReplacementDataSet(dataSet);
 
-            connection = getDatabaseDataSourceConnection(db);
+            connection = getDatabaseDataSourceConnection();
             connection.getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
             connection.getConfig().setFeature(DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES, Boolean.TRUE);
             connection.getConfig().setProperty(DatabaseConfig.FEATURE_CASE_SENSITIVE_TABLE_NAMES, Boolean.TRUE);
@@ -159,14 +146,10 @@ public class BaseTest extends JoggerTest {
                 }
             }
         }
-
     }
 
-    private DatabaseDataSourceConnection getDatabaseDataSourceConnection(String db) throws SQLException {
-        DataSource dataSource = null;
-        if (DB_BASE.equals(db)) dataSource = getSpringContext().getBean("dataSource", DataSource.class);
-
-        return new DatabaseDataSourceConnection(dataSource);
+    private DatabaseDataSourceConnection getDatabaseDataSourceConnection() throws SQLException {
+        return new DatabaseDataSourceConnection(getSpringContext().getBean("dataSource", DataSource.class));
     }
 
     /**
