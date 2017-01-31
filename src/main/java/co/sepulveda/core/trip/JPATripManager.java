@@ -2,8 +2,10 @@ package co.sepulveda.core.trip;
 
 import co.sepulveda.core.employee.Employee;
 import com.elibom.jogger.exception.ConflictException;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -17,7 +19,7 @@ public class JPATripManager implements TripManager {
 
     @Transactional
     @Override
-    public void create(Trip trip) throws Exception{
+    public void create(Trip trip) throws Exception {
         try {
             entityManager.persist(trip);
         } catch (Exception e) {
@@ -25,4 +27,28 @@ public class JPATripManager implements TripManager {
         }
     }
 
+    @Override
+    public Trip load(long id, long employeeId) throws Exception {
+        try {
+            Query query = entityManager.createQuery("select t from Trip t where t.employee.id = :employeeId and t.id = :id");
+            query.setParameter("employeeId", employeeId);
+            query.setParameter("id", id);
+
+            List<Trip> trip = query.getResultList();
+            if (trip != null && !trip.isEmpty()) {
+                return trip.get(0);
+            }
+
+            return null;
+        } catch (Exception e) {
+            throw new ConflictException();
+        }
+    }
+
+    @Override
+    @Transactional
+    public void update(Trip trip) throws Exception {
+        entityManager.merge(trip);
+        entityManager.flush();
+    }
 }

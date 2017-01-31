@@ -3,21 +3,25 @@ package co.sepulveda.core.trip;
 import co.sepulveda.core.employee.Employee;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.TypeDef;
 import org.hibernate.validator.constraints.Length;
-import org.jasypt.hibernate4.type.EncryptedStringType;
 
 /**
  *
@@ -35,6 +39,7 @@ public class Trip implements Serializable {
     private Date creationTime;
     private String status;
     private Date endTime;
+    private Set<Expense> expenses = new HashSet<>();
 
     @Id
     @Column(name = "id")
@@ -97,5 +102,23 @@ public class Trip implements Serializable {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = Expense.class, orphanRemoval=true)
+    @Cascade({CascadeType.ALL})
+    @JoinColumn(name = "trip_id")
+    public Set<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(Set<Expense> expenses) {
+        this.expenses = expenses;
+    }
+
+    public void addExpense(Expense expense) {
+        if (expenses.contains(expense)) {
+            expenses.remove(expense);
+        }
+        expenses.add(expense);
     }
 }
