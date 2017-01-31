@@ -24,8 +24,15 @@ public class ExceptionMiddleware implements Middleware {
     }
 
     private void processException(Response response, Exception e) {
-        if(e instanceof UnAuthorizedException) response.status(401).write("{\"code\":\"unauthorized\"}");
-        if(e instanceof BadRequestException) response.status(400).write("{\"code\":\"invalid_data\"}");
-        if(e instanceof ConflictException) response.status(409).write("{\"code\":\"duplicated_entry\"}");
+        if(e instanceof UnAuthorizedException) {
+            response.status(401).write("{\"code\":\"unauthorized\"}");
+            return;
+        }else if(e instanceof BadRequestException) {
+            response.status(400).write("{\"code\":\"invalid_data\"}");
+        }else if(e instanceof ConflictException) {
+            response.status(409).write("{\"code\":\"duplicated_entry\"}");
+        } else {
+            response.status(500).write("{\"code\":\"error\"}");
+        }
     }
 }

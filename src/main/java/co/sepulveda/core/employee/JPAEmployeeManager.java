@@ -20,11 +20,13 @@ public class JPAEmployeeManager implements EmployeeManager {
     @Override
     public void create(Employee employee) throws Exception{
         if (getByPersonalId(employee.getPersonalId()) != null) {
-            throw new Exception("Employee '" + employee.getEmail() + "' already exists.");
+            throw new ConflictException("Employee '" + employee.getEmail() + "' already exists.");
         }
 
         try {
             entityManager.persist(employee);
+        } catch (ConflictException ce) {
+            throw ce;
         } catch (Exception e) {
             throw new Exception("Employee " + employee + " couldn't be created: " + e.getMessage(), e);
         }
@@ -32,7 +34,7 @@ public class JPAEmployeeManager implements EmployeeManager {
 
     private Employee getByPersonalId(String personalId) throws Exception {
         try {
-            Query query = entityManager.createQuery("select e from Employee e where e.personal_id = :personalId");
+            Query query = entityManager.createQuery("select e from Employee e where e.personalId = :personalId");
             query.setParameter("personalId", personalId);
 
             List<Employee> employees = query.getResultList();
