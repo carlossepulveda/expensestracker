@@ -1,5 +1,6 @@
 package co.sepulveda.web.controller;
 
+import co.sepulveda.core.trip.Expense;
 import co.sepulveda.web.forms.TripResponse;
 import com.elibom.jogger.http.Http;
 import com.elibom.jogger.http.Response;
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.dbunit.operation.DatabaseOperation;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -136,4 +138,17 @@ public class AdminTest extends BaseTest {
         Assert.assertNotNull(trips);
     }
 
+    @Test
+    public void shouldListExpensesGroupByTag() throws Exception {
+        databaseOperation(DatabaseOperation.INSERT, dataset);
+
+        MockResponse response = get("/admin/expense")
+                .setHeader(Http.Headers.ACCEPT, "text/json")
+                .run();
+
+        Assert.assertEquals(response.getStatus(), Response.OK);
+        JSONArray expenses = new JSONArray(response.getOutputAsString());
+        Assert.assertNotNull(expenses);
+        Assert.assertEquals(expenses.length(), 1);
+    }
 }
