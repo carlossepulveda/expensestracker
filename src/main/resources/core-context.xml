@@ -49,6 +49,7 @@
     </bean>
     <bean id="employeeManager" class="co.sepulveda.core.employee.JPAEmployeeManager"/>
     <bean id="tripManager" class="co.sepulveda.core.trip.JPATripManager"/>
+    <bean id="expenseManager" class="co.sepulveda.core.trip.JPAExpenseManager"/>
     <bean id="freeMarkerFactory" class="co.sepulveda.util.FreeMarkerFactory">
         <property name="templatesDirectory" value="${BASEDIR:.}/templates/" />
         <property name="classpathDirectory" value="/templates" />
