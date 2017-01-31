@@ -2,6 +2,8 @@ package co.sepulveda.web.controller;
 
 import co.sepulveda.core.employee.Employee;
 import co.sepulveda.core.employee.EmployeeManager;
+import co.sepulveda.core.trip.Expense;
+import co.sepulveda.core.trip.ExpenseManager;
 import co.sepulveda.core.trip.Trip;
 import co.sepulveda.core.trip.TripManager;
 import co.sepulveda.web.Secured;
@@ -28,6 +30,7 @@ public class Admin {
 
     private EmployeeManager employeeManager;
     private TripManager tripManager;
+    private ExpenseManager expenseManager;
 
     public void createEmployee(Request request, Response response) throws Exception {
         String body = request.getBody().asString();
@@ -86,6 +89,12 @@ public class Admin {
         response.contentType(Http.ContentType.APPLICATION_JSON).write(json);
     }
 
+    public void groupExpenses(Request request, Response response) throws Exception {
+        List<Expense> expenses = expenseManager.groupByTag();
+        String json = new ObjectMapper().writeValueAsString(expenses);
+        response.contentType(Http.ContentType.APPLICATION_JSON).write(json);
+    }
+
     private TripResponse buildTripResponse(Trip trip) {
         TripResponse tripR = new TripResponse();
         tripR.setCreationTime(trip.getCreationTime());
@@ -113,5 +122,9 @@ public class Admin {
 
     public void setTripManager(TripManager tripManager) {
         this.tripManager = tripManager;
+    }
+
+    public void setExpenseManager(ExpenseManager expenseManager) {
+        this.expenseManager = expenseManager;
     }
 }
