@@ -7,6 +7,7 @@ new Vue({
     	var that = this;
     	var data = window.location.pathname.split('/');
     	var id = data[data.length - 1];
+        this.id = id;
     	
     	$.ajax({
                 type: 'GET',

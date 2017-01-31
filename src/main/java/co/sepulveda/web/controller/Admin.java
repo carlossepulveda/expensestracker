@@ -42,6 +42,11 @@ public class Admin {
     }
 
     public void listEmployees(Request request, Response response) throws Exception {
+        String accept = request.getHeader(Http.Headers.ACCEPT);
+        if (accept != null && accept.contains("html")) {
+            response.contentType(ContentType.TEXT_HTML).render("admin-employees.ftl");
+            return;
+        }
         List<Employee> employees = employeeManager.list();
         String json = new ObjectMapper().writeValueAsString(employees);
         response.contentType(Http.ContentType.APPLICATION_JSON).write(json);
@@ -136,6 +141,10 @@ public class Admin {
 
     public void newTrip(Request request, Response response) {
         response.contentType(ContentType.TEXT_HTML).render("admin-create-trip.ftl");
+    }
+
+    public void newEmployee(Request request, Response response) {
+        response.contentType(ContentType.TEXT_HTML).render("admin-create-employee.ftl");
     }
 
     private long getTripId(Request request) {
