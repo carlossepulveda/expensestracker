@@ -28,6 +28,8 @@ import org.jasypt.hibernate4.type.EncryptedStringType;
 @Table(name = "employee", uniqueConstraints = @UniqueConstraint(columnNames = "personal_id"))
 public class Employee implements Serializable {
 
+    public static final String ROLE_ADMIN = "admin";
+    public static final String ROLE_EMPLOYEE = "admin";
     private long id;
     private String name;
     private String email;

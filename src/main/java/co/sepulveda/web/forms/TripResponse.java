@@ -14,6 +14,7 @@ public class TripResponse {
     private long id;
     private long employeeId;
     private String employeePersonId;
+    private String employeeName;
     private String name;
     private Date creationTime;
     private String status;
@@ -82,5 +83,13 @@ public class TripResponse {
 
     public void setEmployeePersonId(String employeePersonId) {
         this.employeePersonId = employeePersonId;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 }
