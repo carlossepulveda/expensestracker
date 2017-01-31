@@ -33,4 +33,18 @@ public class LoginTest extends BaseTest {
         Cookie cookie = response.getAddedCookies().get("expenses_session_id");
         Assert.assertNotNull(cookie);
     }
+
+    @Test
+    public void shouldLogout() throws Exception{
+        databaseOperation(DatabaseOperation.INSERT, dataset);
+
+        MockResponse response = get("/logout")
+                .setHeader(Http.Headers.ACCEPT, "text/json")
+                .addCookie(new Cookie("expenses_session_id", "1234567890"))
+                .run();
+
+        Assert.assertEquals(response.getStatus(), Response.FOUND);
+        Cookie cookie = response.getAddedCookies().get("expenses_session_id");
+        Assert.assertNull(cookie);
+    }
 }

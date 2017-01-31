@@ -10,6 +10,9 @@
 <body>
 <div class="container-section admin-create-employee col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1" style="padding:4%;">
 
+    <div class="pull-right">
+        <a href="/logout">Logout</a>
+    </div>
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <h2>Agregar viaje</h2>

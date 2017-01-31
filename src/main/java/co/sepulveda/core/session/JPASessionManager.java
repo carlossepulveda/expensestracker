@@ -45,6 +45,7 @@ public class JPASessionManager implements SessionManager {
     }
 
     @Override
+    @Transactional
     public void deleteByToken(String token) throws Exception {
         Session temp = loadByToken(token);
         if (temp == null) {

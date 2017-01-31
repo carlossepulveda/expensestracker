@@ -44,6 +44,16 @@ public class Pages {
         response.contentType(ContentType.APPLICATION_JSON).write("{}");
     }
 
+   public void logout(Request request, Response response) throws Exception {
+        Session session = (Session) response.getAttributes().get("session");
+        if (session != null) {
+            sessionManager.deleteByToken(session.getToken());
+            response.removeCookie(new Cookie("expenses_session_id",session.getToken(), Integer.MAX_VALUE, "/"));
+        }
+
+        response.redirect("/");
+    }
+
     public void home(Request request, Response response) throws Exception {
         Session session = (Session) response.getAttributes().get("session");
         if (Employee.ROLE_EMPLOYEE.equals(session.getEmployee().getRole())) {
