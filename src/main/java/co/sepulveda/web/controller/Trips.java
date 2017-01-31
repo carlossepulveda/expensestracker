@@ -1,7 +1,6 @@
 package co.sepulveda.web.controller;
 
 import co.sepulveda.core.employee.Employee;
-import co.sepulveda.core.employee.EmployeeManager;
 import co.sepulveda.core.trip.Expense;
 import co.sepulveda.core.trip.Trip;
 import co.sepulveda.core.trip.TripManager;

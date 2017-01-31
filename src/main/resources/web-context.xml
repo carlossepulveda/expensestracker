@@ -20,8 +20,11 @@
         <property name="staticDirectory" value="${BASEDIR:.}/static" />
     </bean>
     <bean id="securityInterceptor" class="co.sepulveda.web.interceptor.SecurityInterceptor">
+        <property name="sessionManager" ref="sessionManager"/>
     </bean>
     <bean id="pagesController" class="co.sepulveda.web.controller.Pages">
+        <property name="employeeManager" ref="employeeManager"/>
+        <property name="sessionManager" ref="sessionManager"/>
     </bean>
     <bean id="adminController" class="co.sepulveda.web.controller.Admin">
         <property name="employeeManager" ref="employeeManager"/>

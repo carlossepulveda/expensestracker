@@ -29,7 +29,7 @@ import org.jasypt.hibernate4.type.EncryptedStringType;
 public class Employee implements Serializable {
 
     public static final String ROLE_ADMIN = "admin";
-    public static final String ROLE_EMPLOYEE = "admin";
+    public static final String ROLE_EMPLOYEE = "employee";
     private long id;
     private String name;
     private String email;

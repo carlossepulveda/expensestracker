@@ -6,6 +6,23 @@
               personal_id="123123123"
               phone="3009987654"
               role="admin"
+              password="TN8lia+hFJxShEVAVqo0Uw=="
+    />
+    <sessions_ id="1"
+                token="1234567890"
+                employee_id="4"
+    />
+    <employee id="5"
+              name="Carlos Init2"
+              email="email2@sepulveda.co"
+              personal_id="123123122"
+              phone="3009987654"
+              role="employee"
+              password="TN8lia+hFJxShEVAVqo0Uw=="
+    />
+    <sessions_ id="2"
+                token="1234567812"
+                employee_id="5"
     />
     <trip id="1"
             name="Prague"
