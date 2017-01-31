@@ -3,6 +3,7 @@ package co.sepulveda.web.controller;
 import co.sepulveda.core.trip.Trip;
 import co.sepulveda.core.trip.TripManager;
 import co.sepulveda.web.forms.TripResponse;
+import com.elibom.jogger.http.Cookie;
 import com.elibom.jogger.http.Http;
 import com.elibom.jogger.http.Response;
 import com.elibom.jogger.test.MockResponse;
@@ -29,6 +30,7 @@ public class TripsTest extends BaseTest {
 
         MockResponse response = post("/trip/1/expense")
                 .setHeader(Http.Headers.ACCEPT, "text/json")
+                .addCookie(new Cookie("expenses_session_id", "1234567812"))
                 .setBodyAsString(json.toString())
                 .run();
 
@@ -45,6 +47,7 @@ public class TripsTest extends BaseTest {
         MockResponse response = post("/trip/22/expense")
                 .setHeader(Http.Headers.ACCEPT, "text/json")
                 .setBodyAsString(json.toString())
+                .addCookie(new Cookie("expenses_session_id", "1234567812"))
                 .run();
 
         Assert.assertEquals(response.getStatus(), Response.NOT_FOUND);
@@ -56,6 +59,7 @@ public class TripsTest extends BaseTest {
 
         MockResponse response = get("/trip/1")
                 .setHeader(Http.Headers.ACCEPT, "text/json")
+                .addCookie(new Cookie("expenses_session_id", "1234567812"))
                 .run();
 
         Assert.assertEquals(response.getStatus(), Response.OK);
@@ -71,6 +75,7 @@ public class TripsTest extends BaseTest {
 
         MockResponse response = put("/trip/1")
                 .setHeader(Http.Headers.ACCEPT, "text/json")
+                .addCookie(new Cookie("expenses_session_id", "1234567812"))
                 .run();
 
         Assert.assertEquals(response.getStatus(), Response.OK);

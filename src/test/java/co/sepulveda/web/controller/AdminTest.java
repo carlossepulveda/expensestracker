@@ -1,7 +1,7 @@
 package co.sepulveda.web.controller;
 
-import co.sepulveda.core.trip.Expense;
 import co.sepulveda.web.forms.TripResponse;
+import com.elibom.jogger.http.Cookie;
 import com.elibom.jogger.http.Http;
 import com.elibom.jogger.http.Response;
 import com.elibom.jogger.test.MockResponse;
@@ -36,6 +36,7 @@ public class AdminTest extends BaseTest {
         MockResponse response = post("/admin/employee")
                 .setHeader(Http.Headers.ACCEPT, "text/json")
                 .setBodyAsString(json.toString())
+                .addCookie(new Cookie("expenses_session_id", "1234567890"))
                 .run();
 
         Assert.assertEquals(response.getStatus(), 201);
@@ -54,6 +55,7 @@ public class AdminTest extends BaseTest {
         MockResponse response = post("/admin/employee")
                 .setHeader(Http.Headers.ACCEPT, "text/json")
                 .setBodyAsString(json.toString())
+                .addCookie(new Cookie("expenses_session_id", "1234567890"))
                 .run();
 
         Assert.assertEquals(response.getStatus(), Response.BAD_REQUEST);
@@ -74,6 +76,7 @@ public class AdminTest extends BaseTest {
         MockResponse response = post("/admin/employee")
                 .setHeader(Http.Headers.ACCEPT, "text/json")
                 .setBodyAsString(json.toString())
+                .addCookie(new Cookie("expenses_session_id", "1234567890"))
                 .run();
 
         Assert.assertEquals(response.getStatus(), Response.CONFLICT);
@@ -89,6 +92,7 @@ public class AdminTest extends BaseTest {
         MockResponse response = post("/admin/trip")
                 .setHeader(Http.Headers.ACCEPT, "text/json")
                 .setBodyAsString(json.toString())
+                .addCookie(new Cookie("expenses_session_id", "1234567890"))
                 .run();
 
         Assert.assertEquals(response.getStatus(), 201);
@@ -104,6 +108,7 @@ public class AdminTest extends BaseTest {
         MockResponse response = post("/admin/trip")
                 .setHeader(Http.Headers.ACCEPT, "text/json")
                 .setBodyAsString(json.toString())
+                .addCookie(new Cookie("expenses_session_id", "1234567890"))
                 .run();
 
         Assert.assertEquals(response.getStatus(), Response.NOT_FOUND);
@@ -115,6 +120,7 @@ public class AdminTest extends BaseTest {
 
         MockResponse response = get("/admin/trip/1")
                 .setHeader(Http.Headers.ACCEPT, "text/json")
+                .addCookie(new Cookie("expenses_session_id", "1234567890"))
                 .run();
 
         Assert.assertEquals(response.getStatus(), Response.OK);
@@ -130,6 +136,7 @@ public class AdminTest extends BaseTest {
 
         MockResponse response = get("/admin/trip")
                 .setHeader(Http.Headers.ACCEPT, "text/json")
+                .addCookie(new Cookie("expenses_session_id", "1234567890"))
                 .run();
 
         Assert.assertEquals(response.getStatus(), Response.OK);
@@ -144,6 +151,7 @@ public class AdminTest extends BaseTest {
 
         MockResponse response = get("/admin/expense")
                 .setHeader(Http.Headers.ACCEPT, "text/json")
+                .addCookie(new Cookie("expenses_session_id", "1234567890"))
                 .run();
 
         Assert.assertEquals(response.getStatus(), Response.OK);
