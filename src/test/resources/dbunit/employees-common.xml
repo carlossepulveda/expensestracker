@@ -5,5 +5,6 @@
               email="email@sepulveda.co"
               personal_id="123123123"
               phone="3009987654"
+              role="admin"
     />
 </dataset>

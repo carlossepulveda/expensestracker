@@ -30,6 +30,7 @@ public class Employees {
         employee.setPassword(form.getPassword());
         employee.setPersonalId(form.getPersonalId());
         employee.setPhone(form.getPhone());
+        employee.setRole(form.getRole());
         return employee;
     }
 

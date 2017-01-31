@@ -11,6 +11,7 @@ public class EmployeeForm extends Form {
     private String personalId;
     private String phone;
     private String password;
+    private String role;
 
     public String getName() {
         return name;
@@ -52,13 +53,23 @@ public class EmployeeForm extends Form {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public boolean validate() {
         return isNotEmpty(name)
                 && isNotEmpty(email)
                 && isNotEmpty(personalId)
                 && isNotEmpty(phone)
-                && isNotEmpty(password);
+                && isNotEmpty(password)
+                && isNotEmpty(role)
+                && ("admin".equals(role) || "employee".equals(role));
     }
 
 }
