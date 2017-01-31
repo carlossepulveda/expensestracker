@@ -1,4 +1,5 @@
 <dataset>
     <employee />
     <trip />
+    <expense />
 </dataset>

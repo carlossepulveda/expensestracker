@@ -46,4 +46,33 @@ public class TripsTest extends BaseTest {
         Assert.assertEquals(response.getStatus(), Response.NOT_FOUND);
     }
 
+    @Test
+    public void shouldAddExpense() throws Exception {
+        databaseOperation(DatabaseOperation.INSERT, dataset);
+        JSONObject json = new JSONObject();
+        json.put("tag","eat");
+        json.put("amount","12000");
+
+        MockResponse response = post("/trip/1/expense")
+                .setHeader(Http.Headers.ACCEPT, "text/json")
+                .setBodyAsString(json.toString())
+                .run();
+
+        Assert.assertEquals(response.getStatus(), Response.OK);
+    }
+
+    @Test
+    public void shouldNotAddExpenseTripNotFound() throws Exception {
+        databaseOperation(DatabaseOperation.INSERT, dataset);
+        JSONObject json = new JSONObject();
+        json.put("tag","eat");
+        json.put("amount","12000");
+
+        MockResponse response = post("/trip/22/expense")
+                .setHeader(Http.Headers.ACCEPT, "text/json")
+                .setBodyAsString(json.toString())
+                .run();
+
+        Assert.assertEquals(response.getStatus(), Response.NOT_FOUND);
+    }
 }
