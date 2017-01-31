@@ -23,12 +23,12 @@
     </bean>
     <bean id="pagesController" class="co.sepulveda.web.controller.Pages">
     </bean>
-    <bean id="employeesController" class="co.sepulveda.web.controller.Employees">
+    <bean id="adminController" class="co.sepulveda.web.controller.Admin">
         <property name="employeeManager" ref="employeeManager"/>
+        <property name="tripManager" ref="tripManager"/>
     </bean>
     <bean id="tripsController" class="co.sepulveda.web.controller.Trips">
         <property name="tripManager" ref="tripManager"/>
-        <property name="employeeManager" ref="employeeManager"/>
     </bean>
 
     <!-- server configuration -->

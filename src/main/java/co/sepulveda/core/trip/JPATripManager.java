@@ -1,6 +1,5 @@
 package co.sepulveda.core.trip;
 
-import co.sepulveda.core.employee.Employee;
 import com.elibom.jogger.exception.ConflictException;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -50,5 +49,20 @@ public class JPATripManager implements TripManager {
     public void update(Trip trip) throws Exception {
         entityManager.merge(trip);
         entityManager.flush();
+    }
+
+    @Override
+    public Trip load(long id) throws Exception {
+        return entityManager.find(Trip.class, id);
+    }
+
+    @Override
+    public List<Trip> list() throws Exception {
+        try {
+            Query query = entityManager.createQuery("select t from Trip t");
+            return query.getResultList();
+        } catch (Exception e) {
+            throw new ConflictException();
+        }
     }
 }
