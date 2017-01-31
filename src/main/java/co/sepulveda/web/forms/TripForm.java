@@ -1,7 +1,5 @@
 package co.sepulveda.web.forms;
 
-import co.sepulveda.core.trip.Trip;
-
 /**
  *
  * @author Carlos Sepulveda <ca.sepulveda.sanchez@gmail.com>
