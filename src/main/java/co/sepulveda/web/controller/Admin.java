@@ -41,6 +41,12 @@ public class Admin {
         response.status(201).write("{}");
     }
 
+    public void listEmployees(Request request, Response response) throws Exception {
+        List<Employee> employees = employeeManager.list();
+        String json = new ObjectMapper().writeValueAsString(employees);
+        response.contentType(Http.ContentType.APPLICATION_JSON).write(json);
+    }
+
     private Employee buildEmployee(EmployeeForm form) {
         Employee employee = new Employee();
         employee.setEmail(form.getEmail());

@@ -48,4 +48,10 @@ public class JPAEmployeeManager implements EmployeeManager {
             throw new ConflictException();
         }
     }
+
+    @Override
+    public List<Employee> list() {
+        Query query = entityManager.createQuery("select e from Employee e ");
+        return query.getResultList();
+    }
 }
