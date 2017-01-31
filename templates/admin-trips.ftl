@@ -12,6 +12,9 @@
 <div class="trip-list container-section col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1" style="padding:4%;">
     
 
+    <div class="pull-right">
+        <a href="/logout">Logout</a>
+    </div>
 	<div class="row col-md-12">
 		<a href="/admin/trip" class="col-md-2"><h4>Trips</h4></a>
 		<a href="/admin/employee" class="col-md-2"><h4>Employees</h4></a>

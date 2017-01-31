@@ -11,6 +11,9 @@
 
 <div class="trip-list container-section col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1" style="padding:4%;">
     
+    <div class="pull-right">
+        <a href="/logout">Logout</a>
+    </div>
 	<hr/>
     <div class="row" style="padding:2em">
         <div class="col-md-8">
