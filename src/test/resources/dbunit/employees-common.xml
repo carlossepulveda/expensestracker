@@ -1,10 +1,16 @@
 <dataset>
 
-    <employee id="1"
+    <employee id="4"
               name="Carlos Init"
               email="email@sepulveda.co"
               personal_id="123123123"
               phone="3009987654"
               role="admin"
+    />
+    <trip id="1"
+            name="Prague"
+            employee_id="4"
+            creation_time="2017-01-30 20:30:57"
+            status="open"
     />
 </dataset>

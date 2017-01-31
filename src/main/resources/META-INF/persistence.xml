@@ -4,5 +4,6 @@
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>co.sepulveda.core.employee.Employee</class>
     <class>co.sepulveda.core.trip.Trip</class>
+    <class>co.sepulveda.core.trip.Expense</class>
   </persistence-unit>
 </persistence>
